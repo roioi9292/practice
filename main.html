@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <!--페이지 너비를 기기의 스크린 너비로 설정 / 처음 페이지 로딩시 확대 축소되지 않은
+   원래 크기를 사용하도록 함 0~10 사이 값.-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--각 버전 중 가장 최신 표준 모드 선택 문서모드-->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>(주)우리넷</title>
+
+  <style>
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Nanumgodic", Helvetica, Arial, sans-serif;
+      color: #58666e;
+      background-color: #f0f3f4;
+      /* 글꼴 부드럽게 */
+      -webkit-font-smoothing: antialiased;
+      /* 폰트 크기 자동 조절 - 명시적으로 100%로 주어 모든 디바이스에서 동일하게 보이도록*/
+      -webkit-text-size-adjus: 100%;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    h1 {
+      margin: 10px 5px;
+    }
+
+    #wrap {
+      width: 100%;
+      margin-top: 60px;
+    }
+
+    header {
+      position: fixed; /* 원래 위치와 상관없이 위치 지정 가능, 고정된 위치 */
+      top: 0;
+      width: 100%;
+      height: 60px;
+      z-index: 2000; /* position 속성이 설정된 엘리먼트에서만 의미를 가짐, 쌓임 순서는 음수 레이어 아래에 양수 레이어*/
+      background-color: #fff;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05); /* 테두리바깥 상자에 그림자효과/*
+      /* offse-x, offset-y, blur-radius, spread-radius, 색상값 */
+    }
+
+    .logo {
+      display: inline-block;
+      height: 36px;
+      margin: 12px 0 12px 25px; /* 마진 사용법 더 공부할 것.*/
+    }
+
+    .logo > img { height: 36px; }
+
+    nav {
+      float: right;
+    }
+
+    .nav-items {
+      margin-right: 60px; /* 오른쪽 마진값 */
+    }
+
+    .nav-items > li {
+      display: inline-block; /* 가로 메뉴바 완성 */
+    }
+
+    .nav-items > li > a {
+      line-height: 50px; /* 앵커 높이 위치 조절 */
+      padding: 0 20px;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .nav-items > li > a:hover {
+      color: rgba(0,0,0,0.8);
+    } /* 마우스 올리면 글씨 색 변경 */
+
+    .navicon {
+      cursor: pointer; /* 해당 태그 위에 올라간 마우스 커서 모양 바뀜 */
+      height: 60px;
+      padding: 28px 15px;
+      position: absolute; /* 원래 위치와 상관없이 위치 지정 가능 , 위 아래 좌 우 위치 설정 가능*/
+      top: 0; right: 0;
+      -webkit-user-select: none; /* chrome, opera, safari 유저 텍스트 선택 블록 차단*/
+      -moz-user-select: none; /* firefox 2+ 유저 텍스트 선택 블록 차단*/
+      -ms-user-select: none; /* IE 10+ 유저 텍스트 선택 블록 차단*/
+      user-select: none; /* standard syntax 유저 텍스트 선택 블록 차단*/
+    }
+
+    .navicon-bar {
+      background-color: #333;
+      display: block;
+      position: relative;
+      transition: background-color .2s ease-out;
+      width: 20px;
+      height: 3px;
+    }
+
+    .navicon-bar::before,
+
+    .navicon-bar::after {
+      background-color: #333; /*햄버거 상단 하단 색상값*/
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      transition: all .2s ease-out;
+    }
+
+    .navicon-bar::before {
+      top: -7px; /* 햄버거 상단 */
+    }
+
+    .navicon-bar::after {
+      top: 7px; /* 햄버거 하단 */
+    }
+
+    .nav-toggle:checked ~ .navicon > .navicon-bar {
+      background: transparent;
+    }
+
+    .nav-toggle:checked ~ .navicon > .navicon-bar::before {
+      transform: rotate(45deg);
+      top: 0;
+    }
+
+    .nav-toggle:checked ~ .navicon > .navicon-bar::after {
+      transform: rotate(-45deg);
+      top: 0;
+    }
+
+    #content-wrap:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    aside {
+      position: fixed;
+      top: 60px;
+      bottom: 0;
+      width: 200px;
+      padding-top: 20px;
+      background-color: #248;
+    }
+
+    aside > ul {
+      width: 200px;
+    }
+
+    aside > ul > li > a {
+      display: block;
+      color: #fff;
+      padding: 10px 0 10px 50px; /* top,반응이 왜없나.. ,top위치 고정자리에서 아래로, top고정위치에서 오른쪽 정렬*/
+    }
+
+    aside > ul > li > a.active {
+      background-color: #4CAF50;
+    }
+
+    aside > ul > li > a:hover:not(.active) {
+      background-color: #888; /*마우스 올리면 백그라운드 색상 액션*/
+    }
+
+    aside > h1 {
+      padding: 20px 0 20px 40px;
+      color: #fff;
+    }
+
+    section {
+      float: right;
+      margin-left: 200px;
+    }
+
+    article { /* 레이아웃 박스 만들기*/
+      margin: 20px;
+      padding: 190px;
+      background-color: white;
+    }
+
+    footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      padding: 0 25px;
+      line-height: 50px;
+      color: #8a8c8f;
+      border-top: 1px solid #dee5e7;
+      background-color: #f2f2f2;
+    }
+
+    .nav-toggle {
+      display: none; /* 체크박스 안보이게 함 */
+    }
+
+    .navicon {
+      display: none; /*햄버거버튼 안보이게함 */
+    }
+
+    @media screen and (max-width: 800px) {
+      header {
+        height: 120px; /* 화면이 800px 아래일때 헤드 높이 120px, 메뉴 텍스트 가운데 정렬*/
+        text-align: center;
+      }
+
+      nav {
+        float: none;
+        margin-right: 0;
+      }
+
+      #wrap {
+        margin-top: 120px;
+      }
+
+      aside {
+        top: 120px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      header {
+        height: 60px;
+      }
+
+      .nav-items {
+        display: none;
+      }
+
+      .navicon {
+        display: block;
+      }
+
+      #wrap {
+        margin-top: 60px;
+      }
+
+      aside {
+        top: 60px;
+      }
+
+      .nav-toggle:checked ~ .nav-items {
+        display: block;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-items > li  {
+        display: block;
+      }
+
+      .nav-items > li > a {
+        line-height: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrap">
+    <header>
+      <a class="logo"><img src="logo.png"></a>
+      <nav>
+        <input class="nav-toggle" id="nav-toggle" type="checkbox">
+        <label class="navicon" for="nav-toggle"><span class="navicon-bar"></span></label>
+        <ul class="nav-items">
+          <li><a href="1.html">제품소개</a></li>
+          <li><a href="#support">고객지원</a></li>
+          <li><a href="#invest">투자정보</a></li>
+          <li><a href="#recruit">채용정보</a></li>
+          <li><a href="#notice">공지사항</a></li>
+          <li><a href="#profile">회사소개</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="content-wrap">
+      <aside>
+        <h1>제품소개</h1>
+        <ul class="aside-item">
+          <li><a href="#1">상품1</a></li>
+          <li><a href="#2">상품2</a></li>
+          <li><a href="#3">상품3</a></li>
+          <li><a href="#4">상품4</a></li>
+          <li><a href="#5">상품5</a></li>
+          <li><a href="#6">상품6</a></li>
+        </ul>
+      </aside>
+      <section>
+        <article id="make1">
+          <h1>London</h1>
+          <p>London is the capital city of England.<p>
+        </article>
+        <article id="make2">
+          <h1>London</h1>
+          <p>London is the capital city of England.<p>
+        </article>
+        <article id="make3">
+          <h1>London</h1>
+          <p>London is the capital city of England.<p>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      © Copyright 2020 namu
+    </footer>
+
+  </div>
+</body>
+</html>
