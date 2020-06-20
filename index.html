@@ -270,7 +270,7 @@ footer {
 </style>
 <script>
 function ftn_alert(page_name){
- alert(page_name + "준비중");
+ alert("준비중 : " + page_name);
 }
 </script>
 </head>	
@@ -278,15 +278,17 @@ function ftn_alert(page_name){
 <body>	
   <div class="wrap">	
     <header>	
-      <a class="logo"><img src="https://w.namu.la/s/76f3cd317712c830ca32c3574db36c64e1e5ecaa7cc034113f98bec89e4a25149a8528b25fd556354c6e594c750889b3971e729596247278234391b5a6c69f48bb184d38f21be4c68a327d60abbb11787d3c24510cf0c16cf7436466b45ca4f351f2c3c8d49616fa6df57c222df3cb76"></a>	
+      <a class="logo">
+       <img src="https://w.namu.la/s/76f3cd317712c830ca32c3574db36c64e1e5ecaa7cc034113f98bec89e4a25149a8528b25fd556354c6e594c750889b3971e729596247278234391b5a6c69f48bb184d38f21be4c68a327d60abbb11787d3c24510cf0c16cf7436466b45ca4f351f2c3c8d49616fa6df57c222df3cb76">
+     </a>
       <nav>
         <ul class="nav-items">	
           <li><a href="#html" onclick="fnt_alert('제품소개')">제품소개</a></li>	
-          <li><a href="#support">고객지원</a></li>	
-          <li><a href="#invest">투자정보</a></li>	
-          <li><a href="#recruit">채용정보</a></li>	
-          <li><a href="#notice">공지사항</a></li>	
-          <li><a href="#profile">회사소개</a></li>	
+          <li><a href="#support" onclick="fnt_alert('고객지원')">고객지원</a></li>	
+          <li><a href="#invest" onclick="fnt_alert('투자정보')">투자정보</a></li>	
+          <li><a href="#recruit" onclick="fnt_alert('채용정보')">채용정보</a></li>	
+          <li><a href="#notice" onclick="fnt_alert('공지사항')">공지사항</a></li>	
+          <li><a href="#profile" onclick="fnt_alert('회사소개')">회사소개</a></li>	
         </ul>	
       </nav>	
     </header>	
@@ -296,11 +298,11 @@ function ftn_alert(page_name){
         <h1>제품소개</h1>	
         <ul class="aside-item">	
           <li><a href="#1" onclick="ftn_alert('상품1')">상품1</a></li>	
-          <li><a href="#2">상품2</a></li>	
-          <li><a href="#3">상품3</a></li>	
-          <li><a href="#4">상품4</a></li>	
-          <li><a href="#5">상품5</a></li>	
-          <li><a href="#6">상품6</a></li>	
+          <li><a href="#2" onclick="ftn_alert('상품2')">상품2</a></li>	
+          <li><a href="#3" onclick="ftn_alert('상품3')">상품3</a></li>	
+          <li><a href="#4" onclick="ftn_alert('상품4')">상품4</a></li>	
+          <li><a href="#5" onclick="ftn_alert('상품5')">상품5</a></li>	
+          <li><a href="#6" onclick="ftn_alert('상품6')">상품6</a></li>	
         </ul>	
       </aside>	
       <section>	
