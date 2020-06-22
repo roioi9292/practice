@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8">
+<!--페이지 너비를 기기의 스크린 너비로 설정 / 처음 페이지 로딩시 확대 축소되지 않은
+ 원래 크기를 사용하도록 함 0~10 사이 값.-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--각 버전 중 가장 최신 표준 모드 선택 문서모드-->
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>나무홈 :: 꽃다발주문</title>
+
+<style>
+
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nanumgodic", Helvetica, Arial, sans-serif;
+  color: #58666e;
+  background-color: #f0f3f4;
+  /* 글꼴 부드럽게 */
+  -webkit-font-smoothing: antialiased;
+  /* 폰트 크기 자동 조절 - 명시적으로 100%로 주어 모든 디바이스에서 동일하게 보이도록*/
+  -webkit-text-size-adjus: 100%;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  margin: 10px 5px;
+}
+
+.wrap {
+  width: 100%;
+  margin-top: 60px;
+}
+
+header {
+  position: fixed; /* 원래 위치와 상관없이 위치 지정 가능, 고정된 위치 */
+  top: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 2000; /* position 속성이 설정된 엘리먼트에서만 의미를 가짐, 쌓임 순서는 음수 레이어 아래에 양수 레이어*/
+  background-color: #fff;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05); /* 테두리바깥 상자에 그림자효과/*
+  /* offse-x, offset-y, blur-radius, spread-radius, 색상값 */
+}
+
+.logo {
+  display: inline-block;
+  height: 36px;
+  margin: 12px 0 12px 25px; /* 마진 사용법 더 공부할 것.*/
+}
+
+.logo > img { height: 36px; }
+
+nav {
+  float: right;
+}
+
+.nav-items {
+  margin-right: 60px; /* 오른쪽 마진값 */
+}
+
+.nav-items > li {
+  display: inline-block; /* 가로 메뉴바 완성 */
+}
+
+.nav-items > li > a {
+  line-height: 50px; /* 앵커 높이 위치 조절 */
+  padding: 0 20px;
+  color: rgba(0,0,0,0.4);
+}
+
+.nav-items > li > a:hover {
+  color: rgba(0,0,0,0.8);
+} /* 마우스 올리면 글씨 색 변경 */
+
+.navicon {
+  cursor: pointer; /* 해당 태그 위에 올라간 마우스 커서 모양 바뀜 */
+  height: 60px;
+  padding: 28px 15px;
+  position: absolute; /* 원래 위치와 상관없이 위치 지정 가능 , 위 아래 좌 우 위치 설정 가능*/
+  top: 0; right: 0;
+  -webkit-user-select: none; /* chrome, opera, safari 유저 텍스트 선택 블록 차단*/
+  -moz-user-select: none; /* firefox 2+ 유저 텍스트 선택 블록 차단*/
+  -ms-user-select: none; /* IE 10+ 유저 텍스트 선택 블록 차단*/
+  user-select: none; /* standard syntax 유저 텍스트 선택 블록 차단*/
+}
+
+.navicon-bar {
+  background-color: #333;
+  display: block;
+  position: relative;
+  transition: background-color .2s ease-out;
+  width: 20px;
+  height: 3px;
+}
+
+.navicon-bar::before,
+
+.navicon-bar::after {
+  background-color: #333; /*햄버거 상단 하단 색상값*/
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+}
+
+.navicon-bar::before {
+  top: -7px; /* 햄버거 상단 */
+}
+
+.navicon-bar::after {
+  top: 7px; /* 햄버거 하단 */
+}
+
+.nav-toggle:checked ~ .navicon > .navicon-bar {
+  background: transparent;
+}
+
+.nav-toggle:checked ~ .navicon > .navicon-bar::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.nav-toggle:checked ~ .navicon > .navicon-bar::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.content-wrap:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+aside {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  width: 200px;
+  padding-top: 20px;
+  background-color: #088A29;
+}
+
+aside > ul {
+  width: 200px;
+}
+
+aside > ul > li > a {
+  display: block;
+  color: #fff;
+  padding: 10px 0 10px 50px; /* top,반응이 왜없나.. ,top위치 고정자리에서 아래로, top고정위치에서 오른쪽 정렬*/
+}
+
+aside > ul > li > a.active {
+  background-color: #4CAF50;
+}
+
+aside > ul > li > a:hover:not(.active) {
+  background-color: #888; /*마우스 올리면 백그라운드 색상 액션*/
+}
+
+aside > h1 {
+  padding: 20px 0 20px 40px;
+  color: #fff;
+}
+
+section {
+  /* float: right;	*/
+  margin-left: 200px;
+}
+
+section > img {
+  overflow: hidden;
+}
+
+article { /* 레이아웃 박스 만들기*/
+  margin: 20px;
+  padding: 190px;
+  background-color: white;
+}
+
+article > img {
+  width: 600px;
+  height: 850px;
+}
+
+.make1, .make2, .make3 {
+  overflow:hidden;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  padding: 0 25px;
+  line-height: 50px;
+  color: #8a8c8f;
+  border-top: 1px solid #dee5e7;
+  background-color: #f2f2f2;
+}
+
+.nav-toggle {
+  display: none; /* 체크박스 안보이게 함 */
+}
+
+.navicon {
+  display: none; /*햄버거버튼 안보이게함 */
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    height: 120px; /* 화면이 800px 아래일때 헤드 높이 120px, 메뉴 텍스트 가운데 정렬*/
+    text-align: center;
+  }
+
+  nav {
+    float: none;
+    margin-right: 0;
+  }
+
+  .wrap {
+    margin-top: 120px;
+  }
+
+  aside {
+    top: 120px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  header {
+    height: 60px;
+  }
+
+  .nav-items {
+    display: none;
+  }
+
+  .navicon {
+    display: block;
+  }
+
+  .wrap {
+    margin-top: 60px;
+  }
+
+  aside {
+    top: 60px;
+  }
+
+  .nav-toggle:checked ~ .nav-items {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-items > li  {
+    display: block;
+  }
+
+  .nav-items > li > a {
+    line-height: 50px;
+  }
+}
+</style>
+<script>
+function ftn_alert(page_name){
+ alert("준비중 : " + page_name);
+}
+</script>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <a class="logo">
+       <img src="logo.png">
+     </a>
+      <nav>
+        <ul class="nav-items">
+          <li><a href="#html" onclick="fnt_alert('꽃다발주문')">꽃다발주문</a></li>
+          <li><a href="#support" onclick="fnt_alert('라이브러리')">라이브러리</a></li>
+          <li><a href="#invest" onclick="fnt_alert('클래스')">클래스</a></li>
+          <li><a href="#recruit" onclick="fnt_alert('매장확인')">매장확인</a></li>
+          <li><a href="#notice" onclick="fnt_alert('공지사항')">공지사항</a></li>
+          <li><a href="#profile" onclick="fnt_alert('회사소개')">회사소개</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="content-wrap">
+      <aside>
+        <h1>제품소개</h1>
+        <ul class="aside-item">
+          <li><a href="#1" onclick="ftn_alert('꽃다발 시안')">꽃다발 시안</a></li>
+          <li><a href="#2" onclick="ftn_alert('꽃 품종')">꽃 품종</a></li>
+          <li><a href="#3" onclick="ftn_alert('꽃말 확인')">꽃말 확인</a></li>
+          <li><a href="#4" onclick="ftn_alert('포장지')">포장지</a></li>
+          <li><a href="#5" onclick="ftn_alert('커스텀디자인')">커스텀디자인</a></li>
+          <li><a href="#6" onclick="ftn_alert('데코악세사리')">데코악세사리</a></li>
+        </ul>
+      </aside>
+      <section>
+        <article class="make1">
+          <img src="flower2.jpg">
+          <h1>꽃말이란?</h1>
+          <p>꽃말(language of flowers) 또는 플로리오그래피(floriography)는 꽃을 사용하거나 배열하면서 쓰이는 암호 통신의 수단이다.</p>
+          <br>
+          <p>의미는 수천 년 동안 꽃에서 기인한 것으로, 유럽, 아시아 및 중동의 전통 문화에서 일부 형태의 플로리오그래피가 사용되었다. 식물과 꽃은 이스라엘 사람들을 위한 상징으로 다가오는 메시아, 특히 사랑의 노래와 연인들의 상징으로 히브리어 성경에서 기호로 사용된다.</p>
+          <br>
+          <p>서양 문화에서 윌리엄 셰익스피어는 상징적 의미를 꽃, 특히 덴마크 왕자인 햄릿에게 사용했다. 19세기 빅토리아 시대에는 영국과 미국에서 꽃에 대한 그림에 대한 관심이 급증했다. 꽃, 식물 및 특정한 꽃꽂이의 선물은 받는 사람에게 암호 메시지를 보내는데 사용되어 받는 이에게 빅토리아 사회에서 큰소리로 말할 수 없는 감정을 표현할 수 있게 해주는 수단으로 사용되었다.</p>
+          <br>
+          <p>꽃 사전을 갖춘 빅토리아 시대 사람들은 종종 패션 소품으로 착용하거나 휴대할 수 있는 작은 꽃다발 (nosegay)이나 터지머지 (tussie-mussie)라고 불리는 작은 크기의 "말하는 꽃다발"을 교환하기도 했다</p>
+        </article>
+        <article class="make2">
+          <img src="flower1.jpg">
+          <h1>꽃말의 기원</h1>
+          <p>꽃말의 기원은 너무나 다양하다. 꽃의 외형적 특징이나 색깔, 향기, 모양 등에 따라 생겨난 경우가 많으며, 다양한 동서양 문화권에서 전해지는 수많은 전설, 신화, 설화 등이 기원이 되는 경우도 있다.</p>
+          <br>
+          <p>또한 서양의 중세시대에 기사가 사랑하는 여인에게 꽃을 보내며 많은 꽃말이 탄생했다는 설도 있다.</p>
+          <br>
+          <p>나라에 따라 정반대의 의미를 가진 꽃말도 존재한다. 예를 들어 '사과'의 경우 영국에서는 에덴동산에서 이브가 뱀에게 속아 사과를 먹은데에서 따온 '유혹'이라는 의미를 가지지만, 프랑스에서는 그리스로마신화의 세여신과 황금사과의 전설에서 비롯된 '가장 아름다운 사람에게'라는 의미를 가진다.</p>
+        </article>
+        <article class="make3">
+          <img src="flower3.jpg">
+          <h1>꽃을 선물한다는 건</h1>
+          <p>누군가에게 꽃을 선물한다는 건 단순히 꽃 한송이가 아니라 <strong>그 안에 담긴 마음</strong>을 전하는 것과도 같다.</p>
+          <br>
+          <p>소중한 이에게 당신의 마음을 담은 꽃 한송이, 꽃다발을 선물해 보는 것은 어떠하신지?</p>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      © Copyright 2020 namu
+    </footer>
+
+  </div>
+</body>
+</html>
